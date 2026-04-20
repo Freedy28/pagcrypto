@@ -1,0 +1,5 @@
+# Keep private keys out of version control
+assets/documents/*_private.pem
+
+# Keep generated private key backups out of git if created later
+*.key
