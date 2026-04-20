@@ -1,0 +1,3 @@
+-----BEGIN PUBLIC KEY-----
+Reemplaza este contenido con tu llave publica ECDSA real.
+-----END PUBLIC KEY-----
