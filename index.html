@@ -317,15 +317,16 @@
                     <i class="fas fa-key text-green-600 text-5xl"></i>
                 </div>
                 <h3 class="text-2xl font-bold text-gray-800 mb-4">Mi Llave Pública</h3>
-                <p class="text-gray-600 mb-6">Descarga mi llave pública generada en la práctica de ECDSA</p>
+                <p class="text-gray-600 mb-6">Descarga mi llave pública (Ed25519) en formato Base64</p>
                 <!-- Reemplaza con el enlace a tu llave pública -->
-                <a href="assets/documents/tu-llave-publica.txt" download class="inline-block bg-green-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-green-700 transition transform hover:scale-105">
+                <a href="assets/documents/tu-llave-publica.txt" download onclick="descargarLlave(event)" class="inline-block bg-green-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-green-700 transition transform hover:scale-105">
                     <i class="fas fa-download mr-2"></i>
                     Descargar Llave Pública
                 </a>
+                <p class="text-xs text-gray-500 mt-3">Si tu navegador no descarga automáticamente, se abrirá el archivo para guardarlo manualmente.</p>
                 <p class="text-sm text-gray-500 mt-4">
                     <i class="fas fa-info-circle mr-1"></i>
-                    Generada con ECDSA próximamente
+                    Generada con Ed25519 (compatible con entorno móvil)
                 </p>
             </div>
         </div>
@@ -345,6 +346,36 @@
     </footer>
 
     <script>
+        async function descargarLlave(event) {
+            event.preventDefault();
+
+            const ruta = 'assets/documents/tu-llave-publica.txt';
+            const nombre = 'llave-publica-ed25519.txt';
+
+            try {
+                const respuesta = await fetch(ruta, { cache: 'no-store' });
+                if (!respuesta.ok) {
+                    throw new Error('No se pudo obtener el archivo.');
+                }
+
+                const contenido = await respuesta.text();
+                const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+
+                const enlace = document.createElement('a');
+                enlace.href = url;
+                enlace.download = nombre;
+                document.body.appendChild(enlace);
+                enlace.click();
+                enlace.remove();
+
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                // Fallback para navegadores que bloquean descargas programaticas.
+                window.open(ruta, '_blank', 'noopener');
+            }
+        }
+
         function toggleMenu() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
