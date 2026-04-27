@@ -280,8 +280,8 @@
         async function descargarLlave(event) {
             event.preventDefault();
 
-            const ruta = 'assets/documents/keypub.pub';
-            const nombre = 'llave-publica-ed25519.pub';
+            const ruta = 'assets/documents/keypub.txt';
+            const nombre = 'llave-publica.txt';
 
             try {
                 const respuesta = await fetch(ruta, { cache: 'no-store' });
